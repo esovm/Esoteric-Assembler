@@ -2,7 +2,7 @@
 checkAndInst() {
     if ! which "$1" > /dev/null
     then
-        echo "Package $1 is not installed!"
+        echo "Package $2 is not installed!"
         read -p "Install? (y/n) "
         if [ "$REPLY" = "y" ]
         then
@@ -43,12 +43,15 @@ then
     exit 1
 fi
 
-VER="2021.4.20"
-SIZE="26"
+VER="2022.5.14"
+SIZE="30"
 
 checkAndInst "gcc" "clang"
+checkAndInst "make" "make"
+
 echo "Compiling to '${PREFIX:0:27}/usr/bin/asm'..."
-gcc -O ./src/main.c -o "${PREFIX:0:27}/usr/bin/asm"
+make
+cp bin/asm "${PREFIX:0:27}/usr/bin/asm"
 echo "Setting permission 755..."
 chmod 755 "${PREFIX:0:27}/usr/bin/asm"
 
